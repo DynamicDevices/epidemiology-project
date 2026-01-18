@@ -1,0 +1,4 @@
+# Dev tooling (linting + git hooks)
+pre-commit>=3.7
+ruff>=0.6
+

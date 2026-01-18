@@ -35,6 +35,15 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
+### Developer setup (recommended)
+
+Install pre-commit + ruff and enable the git hook:
+
+```bash
+pip install -r requirements-dev.txt
+pre-commit install
+```
+
 2. Launch Jupyter:
 
 ```bash
