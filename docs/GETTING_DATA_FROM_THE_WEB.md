@@ -45,6 +45,39 @@ This project uses public health data from the UKHSA dashboard API. There are a f
 **Cons**
 - Slightly more code to learn (requests + pagination).
 
+## 4) OpenAPI/Swagger client libraries (a “middle ground”)
+
+UKHSA publishes an OpenAPI (Swagger) schema:
+- Swagger UI: `https://api.ukhsa-dashboard.data.gov.uk/api/swagger`
+- OpenAPI schema JSON: `https://api.ukhsa-dashboard.data.gov.uk/api/schema`
+
+That means you *can* use generic OpenAPI tooling instead of writing any custom helper code.
+
+### Option A: runtime OpenAPI clients
+
+These libraries load the schema and let you call endpoints through a client object:
+- `bravado` (runtime Swagger/OpenAPI client)
+
+Pros:
+- You don’t manually build URLs as often.
+
+Cons:
+- You still need to understand endpoint structure and handle pagination.
+- Adds a dependency that everyone must install.
+
+### Option B: generate a Python client from the schema
+
+These tools generate Python code from the OpenAPI schema:
+- `openapi-python-client`
+- OpenAPI Generator
+
+Pros:
+- Can provide a more “SDK-like” feel (typed models, auto-completion).
+
+Cons:
+- Extra setup step (generation) and maintenance if the API schema changes.
+- Often too heavy for a first-year project unless you really need many endpoints.
+
 ## Why do we handle pagination?
 
 Many APIs return results in pages (e.g. 100–500 rows at a time) to avoid huge responses.
