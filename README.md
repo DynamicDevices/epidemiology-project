@@ -65,6 +65,22 @@ jupyter lab --ip=0.0.0.0 --no-browser --port 8888
 
 Codespaces will prompt you to open/forward port **8888**.
 
+## Start here (recommended notebook order)
+
+If you want **pre-existing real data** first (time vs infected proxy):
+
+- `notebooks/09_download_baseline_observed_ukhsa_covid_cases.ipynb`
+
+If you then need **separate intervention datasets** (clean “what-if” scenarios):
+
+- `notebooks/10_generate_baseline_no_intervention.ipynb`
+- `notebooks/11_generate_intervention_scenarios.ipynb`
+- `notebooks/12_compare_scenarios.ipynb`
+
+If you want to understand how the UKHSA API/Swagger/OpenAPI browsing works:
+
+- `notebooks/00_tutorial_swagger_openapi_ukhsa.ipynb`
+
 ## Working as a group (git)
 
 See `CONTRIBUTING.md` for the workflow. The short version:
