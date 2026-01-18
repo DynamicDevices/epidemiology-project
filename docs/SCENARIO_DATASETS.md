@@ -9,6 +9,15 @@ For the **interventions** requirement, synthetic data is often easiest because:
 - you can define “no interventions” precisely
 - you can create multiple scenarios that differ by exactly one change
 
+## Baseline observed dataset (pre-existing real data)
+
+If you want to start from **pre-existing data**, use the UKHSA API to download an observed “infected vs time” proxy:
+
+- **Notebook**: `notebooks/09_download_baseline_observed_ukhsa_covid_cases.ipynb`
+- **Output**: `data/processed/observed/ukhsa_covid19_cases_by_day_england.csv`
+
+Note: this is **observed history** (not “policy-free”). It’s a clean time series you can treat as a baseline input before doing synthetic intervention scenarios.
+
 ## Dataset schema (all scenarios)
 
 Generated CSVs share a consistent schema:
@@ -43,6 +52,7 @@ Outputs:
 ## How to generate
 
 Run:
+- `notebooks/09_download_baseline_observed_ukhsa_covid_cases.ipynb` (pre-existing observed baseline)
 - `notebooks/10_generate_baseline_no_intervention.ipynb`
 - `notebooks/11_generate_intervention_scenarios.ipynb`
 - `notebooks/12_compare_scenarios.ipynb`
