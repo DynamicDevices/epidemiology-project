@@ -1,5 +1,21 @@
 from __future__ import annotations
 
+"""Simple SIR model simulator (teaching-focused).
+
+This module creates *synthetic* infection time series for the project requirement:
+- one dataset with **no interventions**
+- multiple datasets with different **interventions**
+
+We use the classic SIR compartments:
+- S(t): susceptible
+- I(t): infected
+- R(t): recovered/removed
+
+This is not meant to be a perfect epidemiological model — it’s a clear starting point that
+lets first-year students connect:
+- equations → simulation → plots → comparisons between scenarios
+"""
+
 from dataclasses import dataclass
 from datetime import date, timedelta
 from typing import Callable
@@ -36,6 +52,14 @@ def simulate_sir(
     - `beta_schedule(day, beta0)` can change transmission over time (e.g. lockdown).
     - `gamma_schedule(day, gamma0)` can change recovery over time (e.g. treatment).
     - `vaccination_pulse=(t0, frac)` moves frac of S -> R at day t0.
+
+    What the parameters mean (plain English):
+    - N: total population size
+    - beta: how quickly infections happen when S and I are both large (higher beta = faster spread)
+    - gamma: recovery rate (higher gamma = shorter infectious period on average)
+
+    Output:
+    - A DataFrame with columns `S`, `I`, `R` over time, plus the beta/gamma values used each day.
     """
 
     if I0 < 0 or R0 < 0:
@@ -97,7 +121,12 @@ def simulate_sir(
 
 
 def step_change(after_day: int, factor: float) -> Callable[[int, float], float]:
-    """Return a schedule that multiplies the baseline value by factor after after_day."""
+    """Make a simple “intervention” schedule: multiply a parameter by `factor` after `after_day`.
+
+    Examples:
+    - Lockdown/contact reduction: beta step down (factor < 1)
+    - Treatment: gamma step up (factor > 1)
+    """
 
     f = float(factor)
 
