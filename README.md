@@ -50,6 +50,20 @@ pre-commit install
 jupyter lab
 ```
 
+## Running in GitHub Codespaces
+
+1. In GitHub, open the repo and click **Code → Codespaces → Create codespace on main**.
+2. Wait for the dev container setup to finish (it installs dependencies automatically).
+3. Open a notebook in `notebooks/` and run cells using the Jupyter extension.
+
+If you prefer launching JupyterLab explicitly:
+
+```bash
+jupyter lab --ip=0.0.0.0 --no-browser --port 8888
+```
+
+Codespaces will prompt you to open/forward port **8888**.
+
 ## Working as a group (git)
 
 See `CONTRIBUTING.md` for the workflow. The short version:
