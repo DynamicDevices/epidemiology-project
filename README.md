@@ -2,6 +2,13 @@
 
 This workspace is organised to make it easy to collaborate, keep notebooks reproducible, and avoid losing context (data sources, assumptions, decisions).
 
+## Where the “context” lives
+
+- **Project brief / plan**: `docs/PROJECT_CONTEXT.md`
+- **Candidate dataset ideas**: `docs/DATA_SOURCE_CANDIDATES.md`
+- **Dataset provenance (what you actually used)**: `docs/DATA_SOURCES.md`
+- **Decision log (important choices + assumptions)**: `docs/DECISIONS.md`
+
 ## Folder layout
 
 - `notebooks/`: Jupyter notebooks (analysis, exploration, modelling)
@@ -33,6 +40,14 @@ pip install -e .
 ```bash
 jupyter lab
 ```
+
+## Working as a group (git)
+
+See `CONTRIBUTING.md` for the workflow. The short version:
+
+- Work on a branch: `git checkout -b yourname/topic`
+- Commit small changes often
+- Merge to `main` when notebooks run and the story still makes sense
 
 ## Reproducibility conventions
 
