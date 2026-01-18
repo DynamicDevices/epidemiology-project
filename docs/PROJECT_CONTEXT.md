@@ -2,7 +2,7 @@
 
 ## One-sentence goal
 
-> TODO: e.g. “Use real public health data to answer a clear epidemiology question with simple maths + clear visuals.”
+> Compare “infected vs time” under **no intervention** vs **different interventions**, using a clean synthetic model first, then optionally compare to real surveillance proxies.
 
 ## Research question (pick one)
 
@@ -26,6 +26,11 @@ Minimum viable analysis:
 
 Suggested starting point if you truly want “infected counts”:
 - UKHSA dashboard API: **COVID-19 confirmed cases by day** (England)
+
+### Intervention scenario requirement
+
+If you need “one dataset with no interventions” and then “separate datasets each with a different intervention”,
+see `docs/SCENARIO_DATASETS.md` and use the scenario notebooks (`notebooks/10_`–`12_`).
 
 ## Scope (keep it small)
 

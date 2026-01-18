@@ -6,6 +6,7 @@ This workspace is organised to make it easy to collaborate, keep notebooks repro
 
 - **Project brief / plan**: `docs/PROJECT_CONTEXT.md`
 - **Candidate dataset ideas**: `docs/DATA_SOURCE_CANDIDATES.md`
+- **Synthetic scenario datasets (baseline + interventions)**: `docs/SCENARIO_DATASETS.md`
 - **Dataset provenance (what you actually used)**: `docs/DATA_SOURCES.md`
 - **Decision log (important choices + assumptions)**: `docs/DECISIONS.md`
 
