@@ -10,6 +10,7 @@ Use `docs/DATA_SOURCES.md` to record the *specific* dataset(s) you actually choo
   - **What**: respiratory infections (incl. COVID-19, influenza, RSV) and other UKHSA metrics, often with regional breakdowns.
   - **Access**: public site + “access our data” page (CSV/API style access varies by dataset).
   - **Link**: `https://ukhsa-dashboard.data.gov.uk/` (see “Access our data” from the site menu)
+  - **UK-focused shortlist**: see `docs/UK_INFECTIOUS_DATA_SHORTLIST.md`
 
 - **CDC open data (US)**
   - **What**: many public health datasets (infectious diseases, vaccination, etc.) with a consistent open-data interface.
