@@ -12,12 +12,20 @@
 
 ### Suggested (UK + infectious + respiratory)
 
-> **How do RSV and influenza seasons differ in timing and magnitude in England, and what changed before/after the COVID period?**
+> **“Time vs infected” question (simple): How does the number of infections change over time?**
+
+Important note: “infected” is rarely observed directly. In public surveillance you usually use a **proxy**:
+- **confirmed cases** (best match to “infected”, when available; COVID has this)
+- **test positivity** (fraction positive; good for comparing waves)
+- **syndromic indicators** (e.g. NHS 111/GP “acute respiratory infection” counts/rates)
+- **hospital admissions** (severe end; good quality but not “all infections”)
 
 Minimum viable analysis:
-- pull weekly **testing positivity** (RSV vs influenza) for England
-- smooth / plot both series
-- estimate and compare **peak week** and **peak value** each season/year
+- pick one proxy series and plot **date/week vs metric_value**
+- optionally smooth (7-day or 3–5 week rolling mean) and find the peak
+
+Suggested starting point if you truly want “infected counts”:
+- UKHSA dashboard API: **COVID-19 confirmed cases by day** (England)
 
 ## Scope (keep it small)
 
