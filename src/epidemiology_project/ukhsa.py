@@ -55,6 +55,8 @@ def fetch_metric(
     *,
     base_url: str = "https://api.ukhsa-dashboard.data.gov.uk",
     api_version: str = "v2",
+    filters: dict[str, Any] | None = None,
+    page_size: int | None = None,
     session: requests.Session | None = None,
 ) -> pd.DataFrame:
     """Fetch a full metric dataset from the UKHSA dashboard API (auto-paginates).
@@ -92,9 +94,26 @@ def fetch_metric(
     next_url: str | None = url
     s = session or requests.Session()
 
+    # Middle ground: use OpenAPI-documented query parameters to reduce downloads.
+    #
+    # The UKHSA metric endpoint supports filters like `year`, `date`, `age`, `sex`, etc.
+    # It also supports `page_size` to request larger pages (the server may still cap this).
+    params: dict[str, Any] = {}
+    if filters:
+        params.update(filters)
+    if page_size is not None:
+        params["page_size"] = int(page_size)
+
     while next_url:
         # Download one page of results
-        payload = _get_json(next_url, session=s)
+        # Only send params on the *first* request. After that we follow the server-provided `next` URL
+        # (which already contains the correct query string).
+        if next_url == url and params:
+            r = s.get(next_url, params=params, timeout=60)
+            r.raise_for_status()
+            payload = r.json()
+        else:
+            payload = _get_json(next_url, session=s)
         # DRF-like pagination schema (common pattern):
         # payload = {"count": ..., "next": "...", "previous": "...", "results": [...]}
         results = payload.get("results")
@@ -108,6 +127,56 @@ def fetch_metric(
     df = pd.DataFrame(rows)
     if "date" in df.columns:
         # Parse ISO dates into pandas datetime objects so sorting/plotting works properly.
+        df["date"] = pd.to_datetime(df["date"])
+        df = df.sort_values("date")
+    return df.reset_index(drop=True)
+
+
+def fetch_metric_by_url(
+    url: str,
+    *,
+    filters: dict[str, Any] | None = None,
+    page_size: int | None = None,
+    session: requests.Session | None = None,
+) -> pd.DataFrame:
+    """Simplest form: fetch a metric given its full URL (auto-paginates).
+
+    This is the “middle ground” approach:
+    - You copy a metric URL (found via Swagger/OpenAPI or by browsing the API)
+    - You optionally pass filters like `{\"year\": 2022}` to reduce the download size
+    - You get a pandas DataFrame back
+
+    Example:
+    - url = \"https://api.ukhsa-dashboard.data.gov.uk/v2/themes/infectious_disease/sub_themes/respiratory/topics/RSV/geography_types/Nation/geographies/England/metrics/RSV_testing_positivityByWeek\"
+    - df = fetch_metric_by_url(url, filters={\"year\": 2022}, page_size=1000)
+    """
+
+    rows: list[dict[str, Any]] = []
+    next_url: str | None = url
+    s = session or requests.Session()
+
+    params: dict[str, Any] = {}
+    if filters:
+        params.update(filters)
+    if page_size is not None:
+        params["page_size"] = int(page_size)
+
+    while next_url:
+        if next_url == url and params:
+            r = s.get(next_url, params=params, timeout=60)
+            r.raise_for_status()
+            payload = r.json()
+        else:
+            payload = _get_json(next_url, session=s)
+
+        results = payload.get("results")
+        if not isinstance(results, list):
+            raise ValueError(f"Unexpected payload shape from {next_url}: keys={list(payload.keys())}")
+        rows.extend(results)
+        next_url = payload.get("next")
+
+    df = pd.DataFrame(rows)
+    if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"])
         df = df.sort_values("date")
     return df.reset_index(drop=True)
