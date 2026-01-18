@@ -181,3 +181,49 @@ def fetch_metric_by_url(
         df = df.sort_values("date")
     return df.reset_index(drop=True)
 
+
+def fetch_timeseries(
+    *,
+    topic: str,
+    metric: str,
+    geography: str = "England",
+    geography_type: str = "Nation",
+    theme: str = "infectious_disease",
+    sub_theme: str = "respiratory",
+    filters: dict[str, Any] | None = None,
+    page_size: int | None = 1000,
+    base_url: str = "https://api.ukhsa-dashboard.data.gov.uk",
+    api_version: str = "v2",
+    session: requests.Session | None = None,
+) -> pd.DataFrame:
+    """Student-friendly wrapper: fetch a single time series with one function call.
+
+    This hides the “tree” structure and pagination so notebooks can stay simple.
+
+    Typical use (time vs infected proxy):
+    - df = fetch_timeseries(topic="COVID-19", metric="COVID-19_cases_casesByDay")
+
+    Returns
+    - DataFrame with all columns returned by the API (including `date` and `metric_value`).
+
+    Tip:
+    - If you only want one year: `filters={"year": 2022}`
+    """
+
+    query = UksHaMetricQuery(
+        theme=theme,
+        sub_theme=sub_theme,
+        topic=topic,
+        geography_type=geography_type,
+        geography=geography,
+        metric=metric,
+    )
+    return fetch_metric(
+        query,
+        base_url=base_url,
+        api_version=api_version,
+        filters=filters,
+        page_size=page_size,
+        session=session,
+    )
+
