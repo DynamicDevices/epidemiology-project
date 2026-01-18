@@ -10,6 +10,15 @@
 - Option B (SIR/SEIR model): TODO
 - Option C (excess mortality): TODO
 
+### Suggested (UK + infectious + respiratory)
+
+> **How do RSV and influenza seasons differ in timing and magnitude in England, and what changed before/after the COVID period?**
+
+Minimum viable analysis:
+- pull weekly **testing positivity** (RSV vs influenza) for England
+- smooth / plot both series
+- estimate and compare **peak week** and **peak value** each season/year
+
 ## Scope (keep it small)
 
 - **Geography**: TODO (e.g. UK, England regions, one country)
